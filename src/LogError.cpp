@@ -19,11 +19,12 @@
 
 #include "LogError.h"
 
-namespace SmackerCommon {
+namespace SmackerCommon
+{
 
 static std::string LastError;
 
-void LogError(const std::string &error)
+void LogError( const std::string& error )
 {
 	LastError = error;
 }

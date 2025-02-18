@@ -24,19 +24,20 @@
 #include "BitReader.h"
 #include <vector>
 
-namespace SmackerCommon {
+namespace SmackerCommon
+{
 
 struct VLC
 {
-    uint32_t symbol;
-    uint32_t code;
+	uint32_t symbol;
+	uint32_t code;
 };
 
 typedef std::vector<std::vector<VLC>> VLCtable;
 
-uint16_t VLC_GetCodeBits(BitReader &bits, VLCtable &table);
-void     VLC_InitTable  (VLCtable &table, uint32_t maxLength, uint32_t size, int *lengths, uint32_t *bits);
-uint32_t VLC_GetSize    (VLCtable &table);
+uint16_t VLC_GetCodeBits( BitReader& bits, VLCtable& table );
+void     VLC_InitTable( VLCtable& table, uint32_t maxLength, uint32_t size, int* lengths, uint32_t* bits );
+uint32_t VLC_GetSize( VLCtable& table );
 
 } // close namespace SmackerCommon
 

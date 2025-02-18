@@ -66,18 +66,18 @@ struct SmackerAudioInfo
 	uint32_t idealBufferSize;
 };
 
-SmackerHandle     Smacker_Open                 (const char* fileName);
-void              Smacker_Close                (SmackerHandle &handle);
-uint32_t          Smacker_GetNumAudioTracks    (SmackerHandle &handle);
-SmackerAudioInfo  Smacker_GetAudioTrackDetails (SmackerHandle &handle, uint32_t trackIndex);
-uint32_t          Smacker_GetAudioData         (SmackerHandle &handle, uint32_t trackIndex, int16_t *data);
-uint32_t          Smacker_GetNumFrames         (SmackerHandle &handle);
-void              Smacker_GetFrameSize         (SmackerHandle &handle, uint32_t &width, uint32_t &height);
-uint32_t          Smacker_GetCurrentFrameNum   (SmackerHandle &handle);
-uint32_t          Smacker_GetNextFrame         (SmackerHandle &handle);
-float             Smacker_GetFrameRate         (SmackerHandle &handle);
-void              Smacker_GetPalette           (SmackerHandle &handle, uint8_t *palette);
-void              Smacker_GetFrame             (SmackerHandle &handle, uint8_t *frame);
+SmackerHandle     Smacker_Open( const char* fileName );
+void              Smacker_Close( SmackerHandle& handle );
+uint32_t          Smacker_GetNumAudioTracks( SmackerHandle& handle );
+SmackerAudioInfo  Smacker_GetAudioTrackDetails( SmackerHandle& handle, uint32_t trackIndex );
+uint32_t          Smacker_GetAudioData( SmackerHandle& handle, uint32_t trackIndex, int16_t* data );
+uint32_t          Smacker_GetNumFrames( SmackerHandle& handle );
+void              Smacker_GetFrameSize( SmackerHandle& handle, uint32_t& width, uint32_t& height );
+uint32_t          Smacker_GetCurrentFrameNum( SmackerHandle& handle );
+uint32_t          Smacker_GetNextFrame( SmackerHandle& handle );
+float             Smacker_GetFrameRate( SmackerHandle& handle );
+void              Smacker_GetPalette( SmackerHandle& handle, uint8_t* palette );
+void              Smacker_GetFrame( SmackerHandle& handle, uint8_t* frame );
 
 const int kMaxAudioTracks = 7;
 
@@ -94,7 +94,7 @@ struct SmackerAudioTrack
 	uint8_t  bitsPerSample;
 	int	     compressionType;
 
-	uint8_t *buffer;
+	uint8_t* buffer;
 	uint32_t bufferSize;
 
 	uint32_t bytesReadThisFrame;
@@ -102,67 +102,67 @@ struct SmackerAudioTrack
 
 class SmackerDecoder
 {
-	public:
+public:
 
-		uint32_t frameWidth;
-		uint32_t frameHeight;
+	uint32_t frameWidth;
+	uint32_t frameHeight;
 
-		SmackerDecoder();
-		~SmackerDecoder();
+	SmackerDecoder();
+	~SmackerDecoder();
 
-		bool Open(const std::string &fileName);
-		void GetPalette(uint8_t *palette);
-		void GetFrame(uint8_t *frame);
+	bool Open( const std::string& fileName );
+	void GetPalette( uint8_t* palette );
+	void GetFrame( uint8_t* frame );
 
-		SmackerAudioInfo GetAudioTrackDetails(uint32_t trackIndex);
-		uint32_t GetAudioData(uint32_t trackIndex, int16_t *audioBuffer);
-		uint32_t GetNumFrames();
-		uint32_t GetCurrentFrameNum();
-		float GetFrameRate();
-		void GetNextFrame();
+	SmackerAudioInfo GetAudioTrackDetails( uint32_t trackIndex );
+	uint32_t GetAudioData( uint32_t trackIndex, int16_t* audioBuffer );
+	uint32_t GetNumFrames();
+	uint32_t GetCurrentFrameNum();
+	float GetFrameRate();
+	void GetNextFrame();
 
-	private:
+private:
 
-		SmackerCommon::FileStream file;
-		uint32_t signature;
+	SmackerCommon::FileStream file;
+	uint32_t signature;
 
-		// video related members
-		uint32_t nFrames;
-		uint32_t fps; // frames per second
+	// video related members
+	uint32_t nFrames;
+	uint32_t fps; // frames per second
 
-		uint8_t palette[768];
-		uint8_t *picture;
+	uint8_t palette[768];
+	uint8_t* picture;
 
-		bool isVer4;
+	bool isVer4;
 
-		SmackerAudioTrack audioTracks[kMaxAudioTracks];
+	SmackerAudioTrack audioTracks[kMaxAudioTracks];
 
-		uint32_t treeSize;
-		uint32_t mMapSize, MClrSize, fullSize, typeSize;
+	uint32_t treeSize;
+	uint32_t mMapSize, MClrSize, fullSize, typeSize;
 
-		std::vector<int> mmap_tbl;
-		std::vector<int> mclr_tbl;
-		std::vector<int> full_tbl;
-		std::vector<int> type_tbl;
+	std::vector<int> mmap_tbl;
+	std::vector<int> mclr_tbl;
+	std::vector<int> full_tbl;
+	std::vector<int> type_tbl;
 
-		int mmap_last[3], mclr_last[3], full_last[3], type_last[3];
+	int mmap_last[3], mclr_last[3], full_last[3], type_last[3];
 
-		std::vector<uint32_t> frameSizes;
-		std::vector<uint8_t> frameFlags;
+	std::vector<uint32_t> frameSizes;
+	std::vector<uint8_t> frameFlags;
 
-		uint32_t currentFrame;
+	uint32_t currentFrame;
 
-		int32_t nextPos;
+	int32_t nextPos;
 
-		bool DecodeHeaderTrees();
-		int DecodeHeaderTree(SmackerCommon::BitReader &bits, std::vector<int> &recodes, int *last, int size);
-		int DecodeTree(SmackerCommon::BitReader &bits, HuffContext *hc, uint32_t prefix, int length);
-		int DecodeBigTree(SmackerCommon::BitReader &bits, HuffContext *hc, DBCtx *ctx);
-		int GetCode(SmackerCommon::BitReader &bits, std::vector<int> &recode, int *last);
-		int ReadPacket();
-		int DecodeFrame(uint32_t frameSize);
-		void GetFrameSize(uint32_t &width, uint32_t &height);
-		int DecodeAudio(uint32_t size, SmackerAudioTrack &track);
+	bool DecodeHeaderTrees();
+	int DecodeHeaderTree( SmackerCommon::BitReader& bits, std::vector<int>& recodes, int* last, int size );
+	int DecodeTree( SmackerCommon::BitReader& bits, HuffContext* hc, uint32_t prefix, int length );
+	int DecodeBigTree( SmackerCommon::BitReader& bits, HuffContext* hc, DBCtx* ctx );
+	int GetCode( SmackerCommon::BitReader& bits, std::vector<int>& recode, int* last );
+	int ReadPacket();
+	int DecodeFrame( uint32_t frameSize );
+	void GetFrameSize( uint32_t& width, uint32_t& height );
+	int DecodeAudio( uint32_t size, SmackerAudioTrack& track );
 };
 
 #endif

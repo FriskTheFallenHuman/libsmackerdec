@@ -19,23 +19,24 @@
 
 #include <HuffmanVLC.h>
 
-namespace SmackerCommon {
+namespace SmackerCommon
+{
 
-uint16_t VLC_GetCodeBits(BitReader &bits, VLCtable &table)
+uint16_t VLC_GetCodeBits( BitReader& bits, VLCtable& table )
 {
 	uint32_t codeBits = 0;
 
 	// search each length array
-	for (uint32_t i = 0; i < table.size(); i++)
+	for( uint32_t i = 0; i < table.size(); i++ )
 	{
 		// get and add a new bit to codeBits
 		uint32_t theBit = bits.GetBit() << i;
 		codeBits |= theBit;
 
 		// search for a code match
-		for (uint32_t j = 0; j < table[i].size(); j++)
+		for( uint32_t j = 0; j < table[i].size(); j++ )
 		{
-			if (codeBits == table[i][j].code)
+			if( codeBits == table[i][j].code )
 			{
 				return table[i][j].symbol;
 			}
@@ -46,11 +47,11 @@ uint16_t VLC_GetCodeBits(BitReader &bits, VLCtable &table)
 	return 0;
 }
 
-void VLC_InitTable(VLCtable &table, uint32_t maxLength, uint32_t size, int *lengths, uint32_t *bits)
+void VLC_InitTable( VLCtable& table, uint32_t maxLength, uint32_t size, int* lengths, uint32_t* bits )
 {
-	table.resize(maxLength);
+	table.resize( maxLength );
 
-	for (uint32_t i = 0; i < size; i++)
+	for( uint32_t i = 0; i < size; i++ )
 	{
 		VLC newCode;
 		newCode.symbol = i;
@@ -58,14 +59,17 @@ void VLC_InitTable(VLCtable &table, uint32_t maxLength, uint32_t size, int *leng
 
 		uint32_t codeLength = lengths[i];
 
-		if (codeLength)
-			table[codeLength - 1].push_back(newCode);
+		if( codeLength )
+		{
+			table[codeLength - 1].push_back( newCode );
+		}
 	}
 }
 
-uint32_t VLC_GetSize(VLCtable &table)
+uint32_t VLC_GetSize( VLCtable& table )
 {
-	return table.size();
+	// SRS - added uint32_t cast for type consistency
+	return ( uint32_t )table.size();
 }
 
 } // close namespace SmackerCommon

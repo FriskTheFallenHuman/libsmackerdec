@@ -25,40 +25,42 @@
 #include <fstream>
 #include <stdint.h>
 
-namespace SmackerCommon {
+namespace SmackerCommon
+{
 
 class FileStream
 {
-	public:
+public:
 
-		bool Open(const std::string &fileName);
-		bool Is_Open();
-		void Close();
+	bool Open( const std::string& fileName );
+	bool Is_Open();
+	void Close();
 
-		int32_t ReadBytes(uint8_t *data, uint32_t nBytes);
+	int32_t ReadBytes( uint8_t* data, uint32_t nBytes );
 
-		uint32_t ReadUint32LE();
-		uint32_t ReadUint32BE();
+	uint32_t ReadUint32LE();
+	uint32_t ReadUint32BE();
 
-		uint16_t ReadUint16LE();
-		uint16_t ReadUint16BE();
+	uint16_t ReadUint16LE();
+	uint16_t ReadUint16BE();
 
-		uint8_t ReadByte();
+	uint8_t ReadByte();
 
-		enum SeekDirection{
-			kSeekCurrent = 0,
-			kSeekStart   = 1,
-			kSeekEnd     = 2
-		};
+	enum SeekDirection
+	{
+		kSeekCurrent = 0,
+		kSeekStart   = 1,
+		kSeekEnd     = 2
+	};
 
-		bool Seek(int32_t offset, SeekDirection = kSeekStart);
-		bool Skip(int32_t offset);
+	bool Seek( int32_t offset, SeekDirection = kSeekStart );
+	bool Skip( int32_t offset );
 
-		int32_t GetPosition();
-		bool Is_Eos();
+	int32_t GetPosition();
+	bool Is_Eos();
 
-	private:
-		std::ifstream file;
+private:
+	std::ifstream file;
 };
 
 } // close namespace SmackerCommon

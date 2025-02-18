@@ -22,9 +22,10 @@
 
 #include <string>
 
-namespace SmackerCommon {
+namespace SmackerCommon
+{
 
-void LogError(const std::string &error);
+void LogError( const std::string& error );
 
 } // close namespace SmackerCommon
 
